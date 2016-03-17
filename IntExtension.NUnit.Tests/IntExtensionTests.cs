@@ -1,5 +1,7 @@
-﻿using NUnit.Framework;
-using IntExtensionLib;
+﻿using System;
+using System.Globalization;
+using NUnit.Framework;
+using System.Threading;
 
 namespace IntExtension.NUnit.Tests
 {
@@ -15,7 +17,9 @@ namespace IntExtension.NUnit.Tests
         [TestCase(-1025, Result = "FFFFFBFF")]
         public string TestConvertToHex(int number)
         {
-            return number.ConvertToHex();
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+            IFormatProvider formatProvider = new IntExtensionLib.IntExtension();
+            return string.Format(formatProvider, "{0:h}", number);
         }
     }
 }
