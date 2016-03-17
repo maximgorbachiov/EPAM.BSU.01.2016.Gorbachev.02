@@ -15,6 +15,7 @@ namespace IntExtension.NUnit.Tests
         [TestCase(1025, Result = "00000401")]
         [TestCase(-234, Result = "FFFFFF16")]
         [TestCase(-1025, Result = "FFFFFBFF")]
+
         public string TestConvertToHex(int number)
         {
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
