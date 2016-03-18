@@ -1,10 +1,37 @@
 ﻿using System;
+using System.Globalization;
 
 namespace IntExtensionLib
 {
-    public static class IntExtension
+    public class IntExtension : IFormatProvider, ICustomFormatter
     {
-        public static string ConvertToHex(this int number)
+        public object GetFormat(Type formatType)
+        {
+            return (formatType == typeof (ICustomFormatter)) ? this : null;
+        } 
+    
+        public string Format(string format, object arg, IFormatProvider formatProvider)
+        { 
+            if (format == null) 
+            { 
+                throw new Exception("Format is null"); 
+            }
+
+            int valueToConvert = 0;
+
+            if ((arg != null) && (arg is int) || (format == "h"))
+            {
+                valueToConvert = (int)arg;
+            }
+            else
+            {
+                throw new ArgumentException("Some params are invalid");
+            }
+     
+            return ConvertToHex(valueToConvert); 
+        } 
+
+        private string ConvertToHex(int number)
         {
             int digit;
             string result = "";
@@ -31,7 +58,7 @@ namespace IntExtensionLib
             return result;
         }
 
-        private static int[] ConvertNumberToBinaryFormat(int number)
+        private int[] ConvertNumberToBinaryFormat(int number)
         {
             int intSize = 32;
             int[] binaryFormatOfNumber = new int[intSize];
@@ -43,7 +70,7 @@ namespace IntExtensionLib
             return binaryFormatOfNumber;
         }
 
-        private static void ConvertToBinary(int number, int[] binaryFormatOfNumber)
+        private void ConvertToBinary(int number, int[] binaryFormatOfNumber)
         {
             int i = 1;
 
