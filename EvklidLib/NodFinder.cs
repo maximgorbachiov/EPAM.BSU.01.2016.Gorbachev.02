@@ -26,13 +26,15 @@ namespace EvklidLib
             return result;
         }
 
+        public int GetNodByEvklidMethod(int number1, int number2, int number3)
+        {
+            int[] numbers = new int[] { number1, number2, number3 };
+            return GetNodAndTime(numbers, EvklidMethod);
+        }
+
         public int GetNodByEvklidMethod(int[] numbers)
         {
-            timer.Start();
-            int result = GetNod(numbers, EvklidMethod);
-            timer.Stop();
-
-            return result;
+            return GetNodAndTime(numbers, EvklidMethod);
         }
 
         public int GetNodByStainsMethod(int number1, int number2)
@@ -44,10 +46,21 @@ namespace EvklidLib
             return result;
         }
 
+        public int GetNodByStainsMethod(int number1, int number2, int number3)
+        {
+            int[] numbers = new int[] { number1, number2, number3 };
+            return GetNodAndTime(numbers, StainsMethod);
+        }
+
         public int GetNodByStainsMethod(int[] numbers)
         {
+            return GetNodAndTime(numbers, StainsMethod);
+        }
+
+        private int GetNodAndTime(int[] numbers, GetNodForTwoNumbers getNod)
+        {
             timer.Start();
-            int result = GetNod(numbers, StainsMethod);
+            int result = GetNod(numbers, getNod);
             timer.Stop();
 
             return result;
@@ -71,6 +84,11 @@ namespace EvklidLib
                     isFirstNod = false;
                 }
 
+                if ((result == 0) && (numbers[i + 1] == 0))
+                {
+                    throw new ArgumentNullException();
+                }
+
                 result = getNod(result, numbers[i + 1]);
             }
 
@@ -80,11 +98,6 @@ namespace EvklidLib
         private int EvklidMethod(int number1, int number2)
         {
             int residue;
-
-            if ((number1 == 0) && (number2 == 0))
-            {
-                throw new ArgumentNullException();
-            }
 
             if (number1 == 0)
             {
@@ -115,11 +128,6 @@ namespace EvklidLib
         {
             int value1 = CheckValueOnNegativeAndAbs(number1);
             int value2 = CheckValueOnNegativeAndAbs(number2);
-
-            if ((number1 == 0) && (number2 == 0))
-            {
-                throw new ArgumentNullException();
-            }
 
             return GetNodSM(value1, value2);
         }
